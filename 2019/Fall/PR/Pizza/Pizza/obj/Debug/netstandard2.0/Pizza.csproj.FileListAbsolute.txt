@@ -1,0 +1,9 @@
+C:\Users\Администратор\source\repos\Pizza\Pizza\bin\Debug\netstandard2.0\Pizza.deps.json
+C:\Users\Администратор\source\repos\Pizza\Pizza\bin\Debug\netstandard2.0\Pizza.dll
+C:\Users\Администратор\source\repos\Pizza\Pizza\bin\Debug\netstandard2.0\Pizza.pdb
+C:\Users\Администратор\source\repos\Pizza\Pizza\obj\Debug\netstandard2.0\Pizza.csprojAssemblyReference.cache
+C:\Users\Администратор\source\repos\Pizza\Pizza\obj\Debug\netstandard2.0\Pizza.csproj.CoreCompileInputs.cache
+C:\Users\Администратор\source\repos\Pizza\Pizza\obj\Debug\netstandard2.0\Pizza.AssemblyInfoInputs.cache
+C:\Users\Администратор\source\repos\Pizza\Pizza\obj\Debug\netstandard2.0\Pizza.AssemblyInfo.cs
+C:\Users\Администратор\source\repos\Pizza\Pizza\obj\Debug\netstandard2.0\Pizza.dll
+C:\Users\Администратор\source\repos\Pizza\Pizza\obj\Debug\netstandard2.0\Pizza.pdb
