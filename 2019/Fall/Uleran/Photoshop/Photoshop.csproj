@@ -38,8 +38,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\Pixle.cs" />
+    <Compile Include="Filters\AbstractFilter.cs" />
+    <Compile Include="Filters\EmptyParameters.cs" />
     <Compile Include="Filters\GrayscaleFilter.cs" />
+    <Compile Include="Filters\IParamenters.cs" />
+    <Compile Include="Filters\LightenningParameters.cs" />
     <Compile Include="Filters\ParameterInfo.cs" />
+    <Compile Include="Filters\ParameterizedFilter.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Window\MainWindow.cs">
       <SubType>Form</SubType>

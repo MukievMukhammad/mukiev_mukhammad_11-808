@@ -2,29 +2,19 @@ using System;
 
 namespace MyPhotoshop
 {
-    public class GrayScaleFilter : IFilter
+    public class GrayScaleFilter : AbstractFilter
     {
-        public ParameterInfo[] GetParameters()
-        {
-            return new ParameterInfo[0];
-        }
+        public GrayScaleFilter(): base(new EmptyParameters()) { }
 
         public override string ToString()
         {
             return "Оттенки серого";
         }
 
-        public Photo Process(Photo original, double[] parameters)
+        public override Pixle ProcessPixle(Pixle original, IParameters parameter)
         {
-            var result = new Photo(original.width, original.height);
-
-            for (int x = 0; x < result.width; x++)
-                for (int y = 0; y < result.height; y++)
-                {
-                    var lightness = (original[x, y].R + original[x, y].G + original[x, y].B) / 3;
-                    result[x, y] = new Pixle(lightness, lightness, lightness);
-                }
-            return result;
+            var lightness = (original.R + original.G + original.B) / 3;
+            return new Pixle(lightness, lightness, lightness);
         }
     }
 }
