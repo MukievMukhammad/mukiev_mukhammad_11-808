@@ -1,0 +1,71 @@
+postgres=# CREATE USER user1 WITH NOLOGIN;
+CREATE ROLE
+postgres=# CREATE USER user2 WITH LOGIN;
+CREATE ROLE
+postgres=> SET ROLE user2;
+SET
+postgres=> CREATE DATABASE db1;
+ОШИБКА:  нет прав на создание базы данных
+postgres=> SET ROLE postgres;
+SET
+postgres=# CREATE USER user3 WITH LOGIN CREATEDB;
+CREATE ROLE
+postgres=# SET ROLE user3;
+SET
+postgres=> CREATE DATABASE db1;
+CREATE DATABASE
+postgres=> SET ROLE postgres;
+SET
+postgres=# DROP USER user2;
+DROP ROLE
+postgres=# DROP DATABASE db1;
+DROP DATABASE
+postgres=# DROP USER user3;
+DROP ROLE
+postgres=# ALTER user1 WITH LOGIN CREATEDB;
+postgres=# ALTER USER user1 WITH LOGIN CREATEDB;
+ALTER ROLE
+postgres=# CREATE DATABASE templatedb1 WITH IS_TEMPLATE = true;
+CREATE DATABASE
+postgres=# \c templatedb1;
+Вы подключены к базе данных "templatedb1" как пользователь "postgres".
+templatedb1=# CREATE SCHEMA schema1;
+CREATE SCHEMA
+templatedb1=# CREATE TABLE schema1.table1();
+CREATE TABLE
+templatedb1=# \c postgres;
+Вы подключены к базе данных "postgres" как пользователь "postgres".
+postgres=# CREATE DATABASE db1 WITH TEMPLATE = templatedb1;
+CREATE DATABASE
+postgres=# \c db1;
+Вы подключены к базе данных "db1" как пользователь "postgres".
+db1=# SELECT * FROM pg_catalog.pg_tables;
+     schemaname     |        tablename        | tableowner | tablespace | hasind
+exes | hasrules | hastriggers | rowsecurity
+--------------------+-------------------------+------------+------------+-------
+-----+----------+-------------+-------------
+ schema1            | table1                  | postgres   |            | f
+     | f        | f           | f
+ pg_catalog         | pg_statistic            | postgres   |            | t
+     | f        | f           | f
+ pg_catalog         | pg_type                 | postgres   |            | t
+     | f        | f           | f
+ pg_catalog         | pg_foreign_server       | postgres   |            | t
+     | f        | f           | f
+ pg_catalog         | pg_authid               | postgres   | pg_global  | t
+     | f        | f           | f
+ pg_catalog         | pg_statistic_ext_data   | postgres   |            | t
+ 
+ 
+postgres=# CREATE USER user4;
+CREATE ROLE                             ^
+postgres=# ALTER DATABASE db1 OWNER TO user4;
+ALTER DATABASE
+postgres=# CREATE TABLESPACE tablespace1 LOCATION 'C:\tablespace';
+CREATE TABLESPACE
+postgres=# CREATE DATABASE db2 WITH TABLESPACE = tablespace1;
+CREATE DATABASE
+postgres=# CREATE SCHEMA schema2;
+CREATE SCHEMA
+postgres=# ALTER SCHEMA schema2 OWNER TO user4;
+ALTER SCHEMA
