@@ -1,0 +1,22 @@
+postgres=# CREATE USER user5 WITH SUPERUSER;
+CREATE ROLE
+postgres=# SET ROLE user5;
+SET
+postgres=# CREATE DATABASE filmography;
+CREATE DATABASE
+postgres=# CREATE TABLE movies (
+								name text,
+								description text,
+								year numeric CHECK (year > 1900 AND year < 2030),
+								genres text,
+								country text,
+								budget numeric CHECK (budget >= 10000));
+CREATE TABLE
+postgres=# CREATE TABLE actors (
+								surname varchar(30) UNIQUE,
+								name varchar(30) UNIQUE,
+								birthday date UNIQUE,
+								motherland varchar(70),
+								number_of_movies numeric CHECK (number_of_movies > 5),
+								id int GENERATE BY DEFAULT AS IDENTITY);
+CREATE TABLE
