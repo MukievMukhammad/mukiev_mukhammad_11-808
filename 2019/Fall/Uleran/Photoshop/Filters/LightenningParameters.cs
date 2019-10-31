@@ -5,7 +5,7 @@ using System.Text;
 
 namespace MyPhotoshop
 {
-    class LightenningParameters : IParameters
+    public class LightenningParameters : IParameters
     {
         public double Coefficient { get; set; }
         public ParameterInfo[] GetDiscription()

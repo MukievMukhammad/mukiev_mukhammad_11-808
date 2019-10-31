@@ -2,18 +2,16 @@ using System;
 
 namespace MyPhotoshop
 {
-	public class LighteningFilter : AbstractFilter
+	public class LighteningFilter : AbstractFilter<LightenningParameters>
 	{
-        public LighteningFilter() : base(new LightenningParameters()) { }
-
 		public override string ToString ()
 		{
 			return "Осветление/затемнение";
 		}
 
-        public override Pixle ProcessPixle(Pixle original, IParameters parameter)
+        public override Pixle ProcessPixle(Pixle original, LightenningParameters parameter)
         {
-            return original * (parameter as LightenningParameters).Coefficient;
+            return original * parameter.Coefficient;
         }
 	}
 }
