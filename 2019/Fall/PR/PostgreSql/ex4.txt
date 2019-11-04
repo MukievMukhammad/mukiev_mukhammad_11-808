@@ -40,3 +40,42 @@ ALTER TABLE
 postgres=# ALTER TABLE actors ADD CONSTRAINT actors_movie_name_movie_year_fkey 
 FOREIGN KEY (movie_name, movie_year) REFERENCES movies(name, year);
 ALTER TABLE
+
+postgres=# ALTER TABLE producer ADD COLUMN movie_name text;
+ALTER TABLE
+postgres=# ALTER TABLE producer ADD COLUMN movie_year numeric;
+ALTER TABLE                                              ^
+postgres=# ALTER TABLE producer ADD CONSTRAINT producer_movie_name_movie_year_fkey 
+FOREIGN KEY (movie_name,movie_year) REFERENCES movies(name, year);
+ALTER TABLE
+
+postgres=# ALTER TABLE producer ADD COLUMN best_movie_name text;
+ALTER TABLE
+postgres=# ALTER TABLE producer ADD COLUMN best_movie_year numeric;
+ALTER TABLE
+postgres=# ALTER TABLE producer ADD CONSTRAINT best_movie 
+FOREIGN KEY (best_movie_name, best_movie_year) REFERENCES movies(name,year);
+ALTER TABLE
+
+postgres=# ALTER TABLE movies DROP CONSTRAINT movies_pkey CASCADE;
+ALTER TABLE
+postgres=# ALTER TABLE movies ADD COLUMN movie_id SERIAL PRIMARY KEY;
+ALTER TABLE
+
+postgres=# ALTER TABLE movies ALTER COLUMN country SET DEFAULT 'UK';
+ALTER TABLE
+postgres=# ALTER TABLE actors DROP CONSTRAINT actors_number_of_movies_check;
+ALTER TABLE
+postgres=# UPDATE movies SET budget = 100 WHERE budget >= 10000;
+UPDATE 6
+postgres=# ALTER TABLE movies ADD CONSTRAINT movies_budget CHECK (budget < 1000);
+ALTER TABLE
+
+postgres=# CREATE TYPE country AS ENUM ('USA', 'UK', 'Russia', 'France', 'Germany');
+CREATE TYPE
+postgres=# ALTER TABLE actors ALTER COLUMN motherland TYPE country USING motherland::country;
+ALTER TABLE
+postgres=# ALTER TABLE actors ADD CONSTRAINT actors_birthday_check CHECK (birthday < 2019);
+ALTER TABLE
+postgres=# CREATE INDEX name_surname_idx ON actors (surname, name);
+CREATE INDEX
