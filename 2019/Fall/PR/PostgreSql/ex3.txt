@@ -38,6 +38,7 @@ postgres-# ('movie5', 'Lorem ipsum...', 1951, 'Comedy', 'Russia', 100000),
 postgres-# ('movie6', 'Lorem ipsum...', 1901, 'Comedy', 'Russia', 100000);
 INSERT 0 6
 
+postgres=# INSERT INTO actors VALUES
 postgres-# ('John', 'Billy', 1999, 'China', 6),
 postgres-# ('John1', 'Billy1', 1989, 'China', 6),
 postgres-# ('John2', 'Billy2', 1988, 'China', 7),

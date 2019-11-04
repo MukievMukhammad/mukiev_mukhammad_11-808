@@ -1,0 +1,42 @@
+postgres=# SELECT * FROM movies;
+  name  |  description   | year | genres  | country | budget
+--------+----------------+------+---------+---------+---------
+ movie1 | Lorem ipsum... | 1945 | Comedy  | USA     | 1000000
+ movie2 | Lorem ipsum... | 2020 | Triller | Russia  |  100000
+ movie3 | Lorem ipsum... | 2021 | Triller | Russia  |  100000
+ movie4 | Lorem ipsum... | 1921 | Comedy  | Russia  |  100000
+ movie5 | Lorem ipsum... | 1951 | Comedy  | Russia  |  100000
+ movie6 | Lorem ipsum... | 1901 | Comedy  | Russia  |  100000
+(6 строк)
+
+
+postgres=# SELECT * FROM actors;
+ surname |  name  | motherland | number_of_movies | id | birthday
+---------+--------+------------+------------------+----+----------
+ John    | Billy  | China      |                6 |  2 |     1999
+ John1   | Billy1 | China      |                6 |  3 |     1989
+ John2   | Billy2 | China      |                7 |  4 |     1988
+ John3   | Billy3 | China      |                8 |  5 |     1978
+ John4   | Billy4 | China      |                9 |  6 |     1968
+ John5   | Billy5 | China      |               15 |  7 |     1950
+(6 строк)
+                        ^
+postgres=# SELECT * FROM producer;
+ surname |  name   | motherland | queue | birthday
+---------+---------+------------+-------+----------
+ Monica  | Montana | USA        |     1 |     1984
+ Monica  | Montana | USA        |     2 |     1954
+ Monica  | Montana | RUSSIA     |     3 |     1954
+ Monica  | Montana | RUSSIA     |     4 |     1901
+ Monica  | Montana | RUSSIA     |     5 |     1801
+ Monica  | Svanna  | USA        |     6 |     1984
+(6 строк)
+
+
+postgres=# ALTER TABLE actors ADD COLUMN movie_name text;
+ALTER TABLE
+postgres=# ALTER TABLE actors ADD COLUMN movie_year numeric;
+ALTER TABLE
+postgres=# ALTER TABLE actors ADD CONSTRAINT actors_movie_name_movie_year_fkey 
+FOREIGN KEY (movie_name, movie_year) REFERENCES movies(name, year);
+ALTER TABLE
