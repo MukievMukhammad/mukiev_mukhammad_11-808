@@ -1,0 +1,52 @@
+postgres=# SELECT p FROM producer p, movies m 
+WHERE p.best_movie = m.movie_id AND m.year = 2000;
+               p
+-------------------------------
+ (Monica,Montana,USA,1,1984,3)
+(1 строка)
+
+postgres=# SELECT p FROM producer p,
+postgres-# (SELECT producer FROM movies GROUP BY producer HAVING COUNT(producer) > 5) AS pr
+postgres-# WHERE p.queue = pr.producer;
+               p
+-------------------------------
+ (Monica,Montana,USA,1,1984,3)
+(1 строка)
+
+postgres=# SELECT m.movie_id FROM movies m,
+postgres-# (SELECT movie FROM actors GROUP BY movie HAVING COUNT(movie) > 10) AS _movie
+postgres-# WHERE m.movie_id = _movie.movie;
+ movie_id
+----------
+(0 строк)
+
+postgres=# SELECT m FROM movies m WHERE m.country = 'USA' ORDER BY rating DESC LIMIT 10;
+                          m
+------------------------------------------------------
+ (movie1,"Lorem ipsum...",1945,Comedy,USA,100,1,1,10)
+(1 строка)
+
+postgres=# SELECT m FROM movies m,
+postgres-# (SELECT DISTINCT act.movie FROM actors act WHERE act.motherland = 'UK') AS m_uk
+postgres-# WHERE m.movie_id = m_uk.movie;
+ m
+---
+(0 строк)
+
+postgres=# SELECT genres FROM movies GROUP BY genres HAVING COUNT(genres) > 5;
+ genres
+--------
+(0 строк)
+
+postgres=# SELECT m FROM movies m ORDER BY length DESC LIMIT 10 OFFSET 11;
+ m
+---
+(0 строк)
+
+postgres=# SELECT DISTINCT m.genres FROM movies m,
+postgres-# (SELECT p.queue FROM producer p WHERE p.motherland = 'UK' OR p.motherland = 'France') AS
+prod
+postgres-# WHERE m.producer = prod.queue;
+ genres
+--------
+(0 строк)
