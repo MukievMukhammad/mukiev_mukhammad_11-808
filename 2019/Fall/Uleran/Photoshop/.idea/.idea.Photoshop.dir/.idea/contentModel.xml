@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\Администратор\.Rider2019.2\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Администратор\.Rider2019.2\system\resharper-host\local\Transient\ReSharperHost\v192\SolutionCaches\_.19.00" t="ExcludeRecursive" />
+    <e p="C:\Users\Администратор\Desktop\Документы Мухаммада\git\mukiev_mukhammad_11-808\2019\Fall\Uleran\Photoshop" t="IncludeRecursive">
+      <e p="bin" t="ExcludeRecursive" />
+      <e p="cat.jpg" t="Include" />
+      <e p="Data" t="Include">
+        <e p="Convertors.cs" t="Include" />
+        <e p="Photo.cs" t="Include" />
+        <e p="Pixle.cs" t="Include" />
+      </e>
+      <e p="Filters" t="Include">
+        <e p="AbstractFilter.cs" t="Include" />
+        <e p="EmptyParameters.cs" t="Include" />
+        <e p="IFilter.cs" t="Include" />
+        <e p="IParamenters.cs" t="Include" />
+        <e p="LightenningParameters.cs" t="Include" />
+        <e p="ParameterInfo.cs" t="Include" />
+        <e p="ParameterizedFilter.cs" t="Include" />
+        <e p="Transform" t="Include">
+          <e p="ITransformer.cs" t="Include" />
+          <e p="RotateTransformer.cs" t="Include" />
+          <e p="RotationParameters.cs" t="Include" />
+          <e p="TransformFilter.cs" t="Include" />
+        </e>
+      </e>
+      <e p="Main.cs" t="Include" />
+      <e p="obj" t="ExcludeRecursive" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Photoshop.csproj" t="IncludeRecursive" />
+      <e p="Tasks.txt" t="Include" />
+      <e p="Window" t="Include">
+        <e p="MainWindow.cs" t="Include" />
+      </e>
+    </e>
+  </component>
+</project>
