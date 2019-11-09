@@ -1,0 +1,59 @@
+1.
+
+demo=# SELECT f FROM bookings.flights f
+demo-# WHERE f.departure_airport = 'DME'
+demo-# AND (f.actual_departure = '2016-09-10' OR f.actual_departure = '2016-09-1
+4');
+ f
+---
+(0 строк)
+
+2.
+
+demo=# SELECT t.passenger_name FROM bookings.tickets t,
+demo-# (
+demo(# SELECT tf.ticket_no FROM bookings.ticket_flights tf,
+demo(# (
+demo(# SELECT f.flight_id fid, f.actual_departure date FROM bookings.flights f W
+HERE f.actual_departure BETWEEN '2016-10-01' AND '2016-10-31'
+demo(# ) AS f_id
+demo(# WHERE tf.flight_id = f_id.fid
+demo(# ) AS t_no,
+demo-# (SELECT b.book_date book_date, b.book_ref book_ref FROM bookings.bookings
+ b) AS bookings
+demo-# WHERE t.ticket_no = t_no.ticket_no AND (booking.book_date + '1 week'::int
+erval) <= f_id.date;
+
+3.
+
+demo=# SELECT aircrafts FROM bookings.aircrafts,
+demo-# (
+demo(# SELECT fl.aircraft_code count FROM bookings.flights fl GROUP BY fl.aircra
+ft_code ORDER BY COUNT(fl.aircraft_code) DESC LIMIT(5)
+demo(# ) AS top_plane
+demo-# WHERE aircrafts.aircraft_code = top_plane.count;
+            aircrafts
+----------------------------------
+ (SU9,"Sukhoi SuperJet-100",3000)
+ (321,"Airbus A321-200",5600)
+ (733,"Boeing 737-300",4200)
+ (CN1,"Cessna 208 Caravan",1200)
+ (CR2,"Bombardier CRJ-200",2700)
+(5 строк)
+
+4.
+
+demo=# SELECT COUNT(f_info.passenger_id) FROM ((bookings.tickets ticket INNER JO
+IN bookings.ticket_flights t_flight ON (ticket.ticket_no = t_flight.ticket_no) )
+ AS ticket INNER JOIN bookings.flights fl ON (ticket.flight_id = fl.flight_id))
+AS f_info WHERE f_info.departure_airport = 'DME' GROUP BY f_info.passenger_id;
+
+5.
+
+demo=# SELECT plane FROM bookings.aircrafts ac INNER JOIN bookings.flights fl ON
+ (ac.aircraft_code = fl.aircraft_code) AS plane
+demo-# WHERE
+demo-# (SELECT COUNT(f.aircraft_code) FROM bookings.flights f WHERE f.actual_dep
+arture < '2016-10-01' GROUP BY f.aircraft_code) >= 2 AND
+demo-# (SELECT COUNT(f.aircraft_code) FROM bookings.flights f WHERE f.actual_dep
+arture > '2016-10-01' GROUP BY f.aircraft_code) == 0;

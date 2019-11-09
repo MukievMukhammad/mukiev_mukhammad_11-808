@@ -1,0 +1,101 @@
+postgres=# SELECT p FROM producer p, movies m WHERE p.best_movie = m.movie_id AND m.year = 2000;
+                p
+----------------------------------
+ (Monica,Montana,USA,1,1984,3)
+ (Monica,Montana,RUSSIA,4,1901,3)
+ (Monica,Montana,RUSSIA,5,1801,4)
+(3 строки)
+
+postgres=# SELECT p FROM producer p,
+postgres-# (SELECT m.producer FROM movies m GROUP BY m.producer HAVING COUNT(m.producer) >= 5) AS go
+od_p_movie
+postgres-# WHERE p.queue = good_p_movie.producer;
+               p
+-------------------------------
+ (Monica,Montana,USA,1,1984,3)
+ (Monica,Montana,USA,2,1954,1)
+(2 строки)
+
+postgres=# SELECT m.movie_id FROM movies m,
+postgres-# (SELECT a.movie FROM actors a GROUP BY a.movie HAVING COUNT(a.movie) > 10) AS ac
+postgres-# WHERE m.movie_id = ac.movie;
+ movie_id
+----------
+(0 строк)
+
+postgres=# SELECT movies FROM movies WHERE country = 'USA' ORDER BY rating DESC LIMIT 10;
+                          movies
+----------------------------------------------------------
+ (movie1,"Lorem ipsum...",1945,Comedy,USA,100,1,1,10,)
+ (movie7,"Lorem ipsum...",2004,Horror,USA,500,7,2,8,60)
+ (movie8,"Lorem ipsum...",2014,Horror,USA,500,8,2,8,60)
+ (movie9,"Lorem ipsum...",2001,Horror,USA,500,9,2,8,60)
+ (movie10,"Lorem ipsum...",1999,Comedy,USA,510,10,2,4,60)
+ (movie11,"Lorem ipsum...",1999,Horror,USA,510,11,2,1,60)
+ (movie12,"Lorem ipsum...",1989,Horror,USA,510,12,2,1,60)
+(7 строк)
+
+postgres=# SELECT m FROM movies m,
+postgres-# (SELECT DISTINCT movie FROM actors WHERE motherland = 'UK') AS uk_act_movie
+postgres-# WHERE m.movie_id = uk_act_movie.movie;
+                             m
+-----------------------------------------------------------
+ (movie3,"Lorem ipsum...",2000,Triller,Russia,100,3,1,10,)
+(1 строка)
+
+postgres=# SELECT a FROM actors a,
+postgres-# (SELECT m.movie_id FROM movies m,
+postgres(# (SELECT p.queue FROM producer p WHERE motherland = 'UK') AS uk_producer
+postgres(# WHERE m.producer = uk_producer.queue AND m.year >= 2007 AND m.year <= 2010) AS movie
+postgres-# WHERE a.movie = movie.movie_id;
+ a
+---
+(0 строк)
+
+postgres=# SELECT SUM(m.budget)/COUNT(m.budget) FROM movies m WHERE m.year < 2000;
+       ?column?
+----------------------
+ 346.0000000000000000
+(1 строка)
+
+postgres=# SELECT SUM(budget)/COUNT(budget) FROM movies WHERE year >= 2000 AND year <= 2005;
+       ?column?
+----------------------
+ 260.0000000000000000
+(1 строка)
+
+postgres=# SELECT SUM(budget)/COUNT(budget) FROM movies WHERE year >= 2005 AND year <= 2010;
+ ?column?
+----------
+
+(1 строка)
+
+postgres=# SELECT p FROM producer p WHERE p.surname LIKE '%N' OR p.surname LIKE '%V';
+              p
+-----------------------------
+ (JOHN,Montana,USA,1,1984,3)
+(1 строка)
+
+postgres=# SELECT MAX(budget) FROM movies GROUP BY year;
+ max
+-----
+ 100
+ 100
+ 500
+ 510
+ 500
+ 100
+ 100
+ 510
+ 500
+(9 строк)
+
+postgres=# SELECT m1 FROM
+postgres-# (SELECT * FROM movies WHERE year < 2010) AS m1,
+postgres-# (SELECT MIN(movies.budget) FROM movies WHERE year >= 2010) AS min
+postgres-# WHERE m1.budget < min;
+                           m1
+---------------------------------------------------------
+ (movie10,"Lorem ipsum...",1999,Comedy,USA,10,10,2,4,60)
+ (movie11,"Lorem ipsum...",1999,Horror,USA,10,11,2,1,60)
+(2 строки)
