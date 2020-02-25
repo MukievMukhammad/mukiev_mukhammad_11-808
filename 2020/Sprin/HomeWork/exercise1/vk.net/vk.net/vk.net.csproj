@@ -11,5 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\NewPostForm %28копировать%29.html" />
+    <None Remove="Files\1.jpg" />
+    <None Remove="Files\3.jpg" />
   </ItemGroup>
 </Project>

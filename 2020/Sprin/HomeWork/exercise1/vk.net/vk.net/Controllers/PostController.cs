@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,7 +31,9 @@ namespace vk.net.Controllers
         {
             var filePath = "Files";
 
-            var fileCount = Directory.GetFiles(filePath, "*.*", SearchOption.AllDirectories).Length;
+            var fileCount = Directory
+                .GetFiles(filePath, "*.*", SearchOption.AllDirectories)
+                .Length;
             fileCount++;
 
             await SavePostFilesAsync(context, filePath, fileCount);
@@ -52,16 +53,23 @@ namespace vk.net.Controllers
             foreach(var file in files)
             {
                 var refToPost = string.Format(
-                    @"<p><a href=""/Post/Detail/{0}"">{1}</a> <a href=""/Post/Delete/{0}"">Delete</a> <a href=""/Post/Edit/{0}"">Edit</a> </p></br> ",
-                    file.Split('.').First().Split('/')[1],
-                    File.ReadLines(file).First());
-
+                    @"<p><a href=""/Post/Detail/{0}"">{1}</a>
+                    <a href=""/Post/Delete/{0}"">Delete</a> <a href=""/Post/Edit/{0}"">Edit</a> </p></br> ",
+                    file
+                    .Split('.')
+                    .First()
+                    .Split('/')[1],
+                    File.ReadLines(file).First()
+                    );
                 postList.Append(refToPost);
-                var content = string.Format(@"<div>{0}</div>", File.ReadAllText(file));
-                postList.Append(content);
+
+                //var content = string.Format(@"<div>{0}</div>", File.ReadAllText(file));
+                //postList.Append(content);
             }
             
-            var response = File.ReadAllText("Views/PostsList.html").Replace("@Model", postList.ToString());
+            var response = File
+                .ReadAllText("Views/PostsList.html")
+                .Replace("@Model", postList.ToString());
             await context.Response.WriteAsync(response);
         }
 
@@ -71,9 +79,11 @@ namespace vk.net.Controllers
             var filePath = "Files";
 
             var fileName = context.GetRouteValue("postId") as string;
-            var _context = File.ReadAllText(filePath + '/' + fileName + ".txt").Take(15) + "...";
+            var _context = File.ReadAllText(filePath + '/' + fileName + ".txt");
 
-            var response = File.ReadAllText("Views/PostDetail.html").Replace("@Model", _context);
+            var response = File
+                .ReadAllText("Views/PostDetail.html")
+                .Replace("@Model", _context);
             response = response.Replace("#", string.Format("Files/{0}.png", fileName));
             await context.Response.WriteAsync(response);
         }
@@ -82,12 +92,12 @@ namespace vk.net.Controllers
         public async Task DeletePost(HttpContext context)
         {
             var fileName = context.GetRouteValue("postId") as string;
-            try
-            {
-                File.Delete("Files/" + fileName + ".txt");
-                File.Delete("Files/" + fileName + ".png");
-            }
-            catch { }
+
+            File.Delete("Files/" + fileName + ".txt");
+            File.Delete("Files/" + fileName + ".png");
+            File.Delete("Files/" + fileName + ".jpg");
+            File.Delete("Files/" + fileName + ".jpeg");
+
             await AllPostsAsync(context);
         }
 
@@ -97,17 +107,13 @@ namespace vk.net.Controllers
             var filePath = "Files";
             var fileName = context.GetRouteValue("postId") as string;
 
-            var name = context.Request.Form["name"];
-            var text = context.Request.Form["text"];
-            var txtFileName = Path.Combine(filePath, fileName + ".txt");
-            File.WriteAllText(txtFileName, name + '\n' + text);
-
             try
             {
                 File.Delete(filePath + fileName + ".png");
             }
             catch { }
             await SavePostFilesAsync(context, filePath, int.Parse(fileName));
+            SavePostContent(context, filePath, int.Parse(fileName));
 
             await AllPostsAsync(context);
         }
@@ -138,7 +144,6 @@ namespace vk.net.Controllers
             var name = context.Request.Form["name"];
             var text = context.Request.Form["text"];
             var txtFileName = Path.Combine(filePath, fileCount + ".txt");
-            //File.AppendAllLines(txtFileName, new string[] { name, text });
             File.WriteAllText(txtFileName, name + '\n' + text);
         }
 
