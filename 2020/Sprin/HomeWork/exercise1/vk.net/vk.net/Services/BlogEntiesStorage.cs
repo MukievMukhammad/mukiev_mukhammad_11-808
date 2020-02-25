@@ -50,7 +50,7 @@ namespace vk.net.Services
 
             File.WriteAllText(
                 Path.Combine(filePath, blogEntry.Id + ".txt"),
-                blogEntry.Name + '\n' + blogEntry.Text + '\n' + fileDirs);
+                blogEntry.Name + '\n' + blogEntry.Text + '\n' + fileDirs + '\n');
         }
 
         public List<BlogEntry> AllPosts()
@@ -69,17 +69,56 @@ namespace vk.net.Services
 
         public BlogEntry Get(int id)
         {
+            var comments = new List<Comment>();
             var content = File.ReadAllLines(
                     Path.Combine(filePath, id + ".txt"));
-            var fileDirs = content[2].Split(',').ToList();
+            var fileDirs = new List<string>();
+            try
+            {
+                fileDirs = content[2].Split(',').ToList();
+            }
+            catch { }
+            try
+            {
+                var commentsId = content[3].Split(',');
+                foreach (var commentId in commentsId)
+                {
+                    if (commentId == "") continue;
+
+                    var comment = new Comment
+                    {
+                        Id = int.Parse(commentId),
+                        Content = File.ReadAllLines(
+                            Path.Combine(filePath, commentId + ".txt"))[1],
+                        PostId = id
+                    };
+                    comments.Add(comment);
+                }
+            }
+            catch { }
+
             var entry = new BlogEntry
             {
                 Id = id,
                 Name = content[0],
                 Text = content[1],
-                FileDirectories = fileDirs
+                FileDirectories = fileDirs,
+                Comments = comments
             };
             return entry;
+        }
+
+        public void Add(Comment comment)
+        {
+            comment.Id = Directory.GetFiles(filePath, "*.txt", SearchOption.AllDirectories).Length + 1;
+
+            File.AppendAllLines(
+                Path.Combine(filePath, comment.Id + ".txt"),
+                new string[] { comment.PostId.ToString(), comment.Content });
+
+            File.AppendAllText(
+                Path.Combine(filePath, comment.PostId + ".txt"),
+                comment.Id.ToString() + ',');
         }
     }
 }

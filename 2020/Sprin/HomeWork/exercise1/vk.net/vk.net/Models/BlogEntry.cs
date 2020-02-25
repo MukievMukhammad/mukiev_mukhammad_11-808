@@ -9,5 +9,6 @@ namespace vk.net.Models
         public string Name { get; set; }
         public string Text { get; set; }
         public List<string> FileDirectories { get; set; }
+        public List<Comment> Comments { get; set; }
     }
 }

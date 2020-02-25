@@ -9,5 +9,14 @@
         @Model
     </div>
     @Files
+
+    <div>
+        <form action="/Post/Comment/Add" method="post" enctype="multipart/form-data">
+            <input type="text" name="content" />
+            <input type="hidden" name="postId" value="@modelId" />
+            <input type="submit" value="Add comment" />
+        </form>
+    </div>
+    @Comments
 </body>
 </html>

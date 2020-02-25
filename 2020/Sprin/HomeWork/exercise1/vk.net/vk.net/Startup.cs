@@ -44,6 +44,7 @@ namespace vk.net
                 endpoints.MapGet("/Post/AllPosts", new PostController(storage).AllPostsAsync);
                 //endpoints.MapPost("Post/Detail/{postId}", new PostController().PostDetailAsync);
                 endpoints.MapPost("/Post/AddNew", new PostController(storage).AddNew);
+                endpoints.MapPost("Post/Comment/Add", new PostController(storage).AddComment);
             });
         }
     }

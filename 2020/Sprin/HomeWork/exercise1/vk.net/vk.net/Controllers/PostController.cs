@@ -93,8 +93,14 @@ namespace vk.net.Controllers
             var fileList = new StringBuilder();
             foreach(var fileDir in post.FileDirectories)
                 fileList.Append($"<img src=\"{fileDir}\"/></br>");
+            var comments = new StringBuilder();
+            foreach (var comment in post.Comments)
+                comments.Append($"<p>{comment.Content}</p>");
 
-            response = response.Replace("@Files", fileList.ToString());
+            response = response
+                .Replace("@Files", fileList.ToString())
+                .Replace("@modelId", post.Id.ToString())
+                .Replace("@Comments", comments.ToString());
             await context.Response.WriteAsync(response);
         }
 
@@ -124,6 +130,22 @@ namespace vk.net.Controllers
             storage.Save(post);
 
             await AllPostsAsync(context);
+        }
+
+
+        public async Task AddComment(HttpContext context)
+        {
+            var content = context.Request.Form["content"];
+            var postId = int.Parse(context.Request.Form["postId"]);
+            var newComment = new Comment
+            {
+                PostId = postId,
+                Content = content
+            };
+
+            storage.Add(newComment);
+
+            await context.Response.WriteAsync("New comment was added!");
         }
 
 
