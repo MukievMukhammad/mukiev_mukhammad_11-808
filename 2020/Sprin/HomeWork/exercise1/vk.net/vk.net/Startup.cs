@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using vk.net.Controllers;
+using vk.net.Services;
 
 namespace vk.net
 {
@@ -16,10 +17,11 @@ namespace vk.net
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRouting();
+            services.AddTransient<IStorage, BlogEntiesStorage>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IStorage storage)
         {
             if (env.IsDevelopment())
             {
@@ -28,7 +30,7 @@ namespace vk.net
 
             var routeBuilder = new RouteBuilder(app);
 
-            routeBuilder.MapGet("Post/Detail/{postId}", new PostController().PostDetailAsync);
+            routeBuilder.MapGet("Post/Detail/{postId}", new PostController(storage).PostDetailAsync);
             routeBuilder.MapGet("Post/Delete/{postId}", new PostController().DeletePost);
             routeBuilder.MapGet("Post/Edit/{postId}", new PostController().GetEditForm);
             routeBuilder.MapPost("Post/Edit/{postId}", new PostController().EditPost);
