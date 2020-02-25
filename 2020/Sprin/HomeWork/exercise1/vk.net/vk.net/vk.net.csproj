@@ -8,6 +8,7 @@
     <Folder Include="Views\" />
     <Folder Include="Controllers\" />
     <Folder Include="Files\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\NewPostForm %28копировать%29.html" />

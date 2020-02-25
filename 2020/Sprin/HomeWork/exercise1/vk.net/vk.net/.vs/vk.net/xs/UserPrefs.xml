@@ -1,3 +1,30 @@
 ﻿<Properties StartupConfiguration="{95BED1AF-743E-4F94-9A5C-BFEB85DE9025}|Default">
+  <MonoDevelop.Ide.ItemProperties.vk.net PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Models/BlogEntry.cs">
+    <Files>
+      <File FileName="Models/BlogEntry.cs" Line="1" Column="1" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="vk.net" expanded="True">
+            <Node name="vk.net" expanded="True">
+              <Node name="Models" expanded="True">
+                <Node name="BlogEntry.cs" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
 </Properties>
