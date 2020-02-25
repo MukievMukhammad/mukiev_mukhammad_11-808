@@ -83,7 +83,7 @@ namespace vk.net.Controllers
         // Отображаем детали поста
         public async Task PostDetailAsync(HttpContext context)
         {
-            var postId = (int)context.GetRouteValue("postId");
+            var postId = int.Parse(context.GetRouteValue("postId") as string);
             var post = storage.Get(postId);
 
             var response = File
@@ -102,7 +102,7 @@ namespace vk.net.Controllers
         // Удаляем указанный пост, а после отображаем список оставшихся постов
         public async Task DeletePost(HttpContext context)
         {
-            var postId = (int)context.GetRouteValue("postId");
+            var postId = int.Parse(context.GetRouteValue("postId") as string);
             storage.Delete(postId);
             
             await AllPostsAsync(context);
@@ -116,7 +116,7 @@ namespace vk.net.Controllers
             var text = context.Request.Form["text"];
             var fileDir = await SavePostFilesAsync(context, context.Request.Form["name"]);
 
-            var postId = (int)context.GetRouteValue("postId");
+            var postId = int.Parse(context.GetRouteValue("postId") as string);
             var post = storage.Get(postId);
             post.Name = name;
             post.Text = text;

@@ -40,8 +40,8 @@ namespace vk.net.Services
 
         public void Save(BlogEntry blogEntry)
         {
-            var files = Directory.GetFiles(filePath, "*.*", SearchOption.AllDirectories).ToList();
-            if (!files.Contains(blogEntry.Id + ".txt"))
+            var files = Directory.GetFiles(filePath, "*.txt", SearchOption.AllDirectories).ToList();
+            if (!files.Contains(Path.Combine(filePath, blogEntry.Id + ".txt")))
                 throw new ArgumentNullException("Такого поста не существует; вы пытаетесь изменить не существующий пост!");
 
             var fileDirs = new StringBuilder();
@@ -55,12 +55,31 @@ namespace vk.net.Services
 
         public List<BlogEntry> AllPosts()
         {
-            throw new System.NotImplementedException();
+            var result = new List<BlogEntry>();
+            var fielIds = Directory
+                .GetFiles(filePath, "*.txt", SearchOption.AllDirectories)
+                .Select(dir => int.Parse(dir.Split('/')[1].Split('.')[0]));
+            foreach(var id in fielIds)
+            {
+                var entry = Get(id);
+                result.Add(entry);
+            }
+            return result;
         }
 
         public BlogEntry Get(int id)
         {
-            throw new System.NotImplementedException();
+            var content = File.ReadAllLines(
+                    Path.Combine(filePath, id + ".txt"));
+            var fileDirs = content[2].Split(',').ToList();
+            var entry = new BlogEntry
+            {
+                Id = id,
+                Name = content[0],
+                Text = content[1],
+                FileDirectories = fileDirs
+            };
+            return entry;
         }
     }
 }
