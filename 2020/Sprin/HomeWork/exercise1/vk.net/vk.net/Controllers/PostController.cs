@@ -89,10 +89,7 @@ namespace vk.net.Controllers
         // Отображаем детали поста
         public async Task PostDetailAsync(HttpContext context)
         {
-            //var filePath = "Files";
-
             var postId = context.GetRouteValue("postId") as string;
-            //var _context = File.ReadAllText(filePath + '/' + fileName + ".txt");
             var post = storage.Get(postId);
 
             var response = File
@@ -100,12 +97,10 @@ namespace vk.net.Controllers
                 .Replace("@Model", post.Text);
 
             var fileList = new StringBuilder();
-            foreach(var file in post.FileDirectories)
-            {
-                fileList.Append($"<img src="{file}"/>")
-            }
+            foreach(var fileDir in post.FileDirectories)
+                fileList.Append($"<img src=\"{fileDir}\"/></br>");
 
-            response = response.Replace("#", string.Format("Files/{0}.png", postId));
+            response = response.Replace("@Files", fileList.ToString());
             await context.Response.WriteAsync(response);
         }
 
@@ -126,12 +121,17 @@ namespace vk.net.Controllers
         // Редактируем пост
         public async Task EditPost(HttpContext context)
         {
-            var filePath = "Files";
-            var fileName = context.GetRouteValue("postId") as string;
+            //var filePath = "Files";
+            var name = context.Request.Form["name"];
+            var text = context.Request.Form["text"];
+            var fileDir = await SavePostFilesAsync(context, "Files", context.Request.Form["name"]);
 
-            DeleteImageFile(fileName);
-            await SavePostFilesAsync(context, filePath, int.Parse(fileName));
-            SaveContent(context, filePath, fileName);
+            var postId = context.GetRouteValue("postId") as string;
+            var post = storage.Get(postId);
+            post.Name = name;
+            post.Text = text;
+            post.FileDirectories = fileDir.Count != 0 ? fileDir : post.FileDirectories;
+            storage.Save(post);
 
             await AllPostsAsync(context);
         }
