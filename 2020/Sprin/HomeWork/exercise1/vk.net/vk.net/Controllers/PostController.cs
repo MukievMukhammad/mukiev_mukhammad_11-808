@@ -79,6 +79,7 @@ namespace vk.net.Controllers
             await context.Response.WriteAsync(response);
         }
 
+
         // Отображаем детали поста
         public async Task PostDetailAsync(HttpContext context)
         {
@@ -97,6 +98,7 @@ namespace vk.net.Controllers
             await context.Response.WriteAsync(response);
         }
 
+
         // Удаляем указанный пост, а после отображаем список оставшихся постов
         public async Task DeletePost(HttpContext context)
         {
@@ -105,6 +107,7 @@ namespace vk.net.Controllers
             
             await AllPostsAsync(context);
         }
+
 
         // Редактируем пост
         public async Task EditPost(HttpContext context)
@@ -122,6 +125,7 @@ namespace vk.net.Controllers
 
             await AllPostsAsync(context);
         }
+
 
         // Сохраняем файлы из контекста
         private async Task<List<string>> SavePostFilesAsync(HttpContext context, string fileName)

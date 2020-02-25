@@ -31,19 +31,19 @@ namespace vk.net
             var routeBuilder = new RouteBuilder(app);
 
             routeBuilder.MapGet("Post/Detail/{postId}", new PostController(storage).PostDetailAsync);
-            routeBuilder.MapGet("Post/Delete/{postId}", new PostController().DeletePost);
-            routeBuilder.MapGet("Post/Edit/{postId}", new PostController().GetEditForm);
-            routeBuilder.MapPost("Post/Edit/{postId}", new PostController().EditPost);
+            routeBuilder.MapGet("Post/Delete/{postId}", new PostController(storage).DeletePost);
+            routeBuilder.MapGet("Post/Edit/{postId}", new PostController(storage).GetEditForm);
+            routeBuilder.MapPost("Post/Edit/{postId}", new PostController(storage).EditPost);
             app.UseRouter(routeBuilder.Build());
             app.UseRouting();
 
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGet("/Post/AddNew", new PostController().GetForm);
-                endpoints.MapGet("/Post/AllPosts", new PostController().AllPostsAsync);
+                endpoints.MapGet("/Post/AddNew", new PostController(storage).GetForm);
+                endpoints.MapGet("/Post/AllPosts", new PostController(storage).AllPostsAsync);
                 //endpoints.MapPost("Post/Detail/{postId}", new PostController().PostDetailAsync);
-                endpoints.MapPost("/Post/AddNew", new PostController().AddNew);
+                endpoints.MapPost("/Post/AddNew", new PostController(storage).AddNew);
             });
         }
     }
