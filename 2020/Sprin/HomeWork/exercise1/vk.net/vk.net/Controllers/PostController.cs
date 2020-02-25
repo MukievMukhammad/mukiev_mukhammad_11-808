@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -42,17 +41,11 @@ namespace vk.net.Controllers
         // Добавляем новый пост
         public async Task AddNew(HttpContext context)
         {
-            var filePath = "Files";
-
-            //var fileCount = Directory
-            //    .GetFiles(filePath, "*.*", SearchOption.AllDirectories)
-            //    .Length;
-            //fileCount++;
             var newEntry = new BlogEntry
             {
                 Name = context.Request.Form["name"],
                 Text = context.Request.Form["text"],
-                FileDirectories = await SavePostFilesAsync(context, filePath, context.Request.Form["name"])
+                FileDirectories = await SavePostFilesAsync(context, context.Request.Form["name"])
             };
 
             storage.Add(newEntry);
@@ -89,7 +82,7 @@ namespace vk.net.Controllers
         // Отображаем детали поста
         public async Task PostDetailAsync(HttpContext context)
         {
-            var postId = context.GetRouteValue("postId") as string;
+            var postId = (int)context.GetRouteValue("postId");
             var post = storage.Get(postId);
 
             var response = File
@@ -107,13 +100,8 @@ namespace vk.net.Controllers
         // Удаляем указанный пост, а после отображаем список оставшихся постов
         public async Task DeletePost(HttpContext context)
         {
-            var filePath = "Files";
-            var fileName = context.GetRouteValue("postId") as string;
-
-            storage.Delete(Path.Combine(filePath, fileName + ".txt"));
-            //File.Delete("Files/" + fileName + ".txt");
-
-            DeleteImageFile(fileName);
+            var postId = (int)context.GetRouteValue("postId");
+            storage.Delete(postId);
             
             await AllPostsAsync(context);
         }
@@ -121,12 +109,11 @@ namespace vk.net.Controllers
         // Редактируем пост
         public async Task EditPost(HttpContext context)
         {
-            //var filePath = "Files";
             var name = context.Request.Form["name"];
             var text = context.Request.Form["text"];
-            var fileDir = await SavePostFilesAsync(context, "Files", context.Request.Form["name"]);
+            var fileDir = await SavePostFilesAsync(context, context.Request.Form["name"]);
 
-            var postId = context.GetRouteValue("postId") as string;
+            var postId = (int)context.GetRouteValue("postId");
             var post = storage.Get(postId);
             post.Name = name;
             post.Text = text;
@@ -137,14 +124,14 @@ namespace vk.net.Controllers
         }
 
         // Сохраняем файлы из контекста
-        private async Task<List<string>> SavePostFilesAsync(HttpContext context, string filePath, string fileName)
+        private async Task<List<string>> SavePostFilesAsync(HttpContext context, string fileName)
         {
             var fileDirs = new List<string>();
             foreach (var formFile in context.Request.Form.Files)
             {
                 if (formFile.Length > 0)
                 {
-                    string newFile = Path.Combine(filePath, fileName + Path.GetExtension(formFile.FileName));
+                    string newFile = Path.Combine("Files", fileName + Path.GetExtension(formFile.FileName));
                     fileDirs.Add(newFile);
                     using (var inputStream = new FileStream(newFile, FileMode.Create))
                     {
@@ -158,37 +145,6 @@ namespace vk.net.Controllers
             }
 
             return fileDirs;
-        }
-
-        // Записываем содержание, текст поста на жесткий диск
-        private void SavePostContent(HttpContext context, string filePath, int fileCount)
-        {
-            var name = context.Request.Form["name"];
-            var text = context.Request.Form["text"];
-            var txtFileName = Path.Combine(filePath, fileCount + ".txt");
-            File.WriteAllText(txtFileName, name + '\n' + text);
-        }
-
-        private void DeleteImageFile(string imageName)
-        {
-            File.Delete("Files/" + imageName + ".png");
-            File.Delete("Files/" + imageName + ".jpg");
-            File.Delete("Files/" + imageName + ".jpeg");
-        }
-
-        private void SaveContent(HttpContext context, string saveTo, string id)
-        {
-            var name = context.Request.Form["name"];
-            var text = context.Request.Form["text"];
-            var txtFileName = Path.Combine(saveTo, id + ".txt");
-            //File.WriteAllText(txtFileName, name + '\n' + text);
-
-            //storage.Add(new BlogEntry
-            //{
-            //    Name = name,
-            //    FileName = txtFileName,
-            //    Text = text
-            //});
         }
     }
 }
