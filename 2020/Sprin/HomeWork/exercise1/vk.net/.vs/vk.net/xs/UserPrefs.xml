@@ -2,14 +2,8 @@
   <MonoDevelop.Ide.ItemProperties.vk.net PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.Workbench ActiveDocument="vk.net/Controllers/PostController.cs">
     <Files>
-      <File FileName="vk.net/Controllers/PostController.cs" Line="111" Column="53" />
+      <File FileName="vk.net/Controllers/PostController.cs" Line="18" Column="17" />
       <File FileName="vk.net/Startup.cs" />
-      <File FileName="vk.net/Views/NewPostForm.html" />
-      <File FileName="vk.net/Views/PostsList.html" />
-      <File FileName="vk.net/vk.net.csproj" />
-      <File FileName="vk.net/Views/PostDetail.html" />
-      <File FileName="vk.net/Views/EditForm.html" />
-      <File FileName="vk.net/Files/3.jpg" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
