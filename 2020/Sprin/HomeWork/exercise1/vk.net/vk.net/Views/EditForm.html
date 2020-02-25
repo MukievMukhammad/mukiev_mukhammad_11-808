@@ -1,0 +1,24 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <form action="/Post/AddNew/" method="post" enctype="multipart/form-data">
+        <div>
+            <h2>Введите Наименование поста:</h2>
+            <label><input name="name" type="text" /></label>
+        </div>
+        <div>
+            <h2>Введите текст поста:</h2>
+            <label><textarea name="text"></textarea></label>
+        </div>
+        <div>
+            <h2>Выберите картинку:</h2>
+            <label><input name="image" type="file" accept="image/*/" /></label>
+        </div>
+        <label><input type="submit" value="Сохранить" /></label>
+    </form>
+</body>
+</html>

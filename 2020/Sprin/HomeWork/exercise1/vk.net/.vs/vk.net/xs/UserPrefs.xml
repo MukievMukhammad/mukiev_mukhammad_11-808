@@ -1,0 +1,44 @@
+﻿<Properties StartupConfiguration="{BD9E361C-D1A9-40D8-9BC4-9FE634D95C41}|Default">
+  <MonoDevelop.Ide.ItemProperties.vk.net PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="vk.net/Controllers/PostController.cs">
+    <Files>
+      <File FileName="vk.net/Controllers/PostController.cs" Line="111" Column="53" />
+      <File FileName="vk.net/Startup.cs" />
+      <File FileName="vk.net/Views/NewPostForm.html" />
+      <File FileName="vk.net/Views/PostsList.html" />
+      <File FileName="vk.net/vk.net.csproj" />
+      <File FileName="vk.net/Views/PostDetail.html" />
+      <File FileName="vk.net/Views/EditForm.html" />
+      <File FileName="vk.net/Files/3.jpg" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="vk.net" expanded="True">
+            <Node name="vk.net" expanded="True">
+              <Node name="Controllers" expanded="True">
+                <Node name="PostController.cs" selected="True" />
+              </Node>
+              <Node name="Files" expanded="True" />
+              <Node name="Views" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="/Users/user/Documents/GitHub/mukiev_mukhammad_11-808/2020/Sprin/HomeWork/exercise1/vk.net/vk.net/vpxvmaqh.547~" relfile="vk.net/vpxvmaqh.547~" line="70" column="1" />
+      <Breakpoint file="/Users/user/Documents/GitHub/mukiev_mukhammad_11-808/2020/Sprin/HomeWork/exercise1/vk.net/vk.net/8qobw0ed.9eo~" relfile="vk.net/8qobw0ed.9eo~" line="70" column="1" />
+      <Breakpoint file="/Users/user/Documents/GitHub/mukiev_mukhammad_11-808/2020/Sprin/HomeWork/exercise1/vk.net/vk.net/ktn7vgez.1mu~" relfile="vk.net/ktn7vgez.1mu~" line="76" column="1" />
+      <Breakpoint file="/Users/user/Documents/GitHub/mukiev_mukhammad_11-808/2020/Sprin/HomeWork/exercise1/vk.net/vk.net/ktn7vgez.1mu~" relfile="vk.net/ktn7vgez.1mu~" line="63" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>
