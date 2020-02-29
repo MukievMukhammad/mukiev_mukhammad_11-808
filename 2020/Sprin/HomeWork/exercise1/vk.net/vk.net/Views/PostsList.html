@@ -5,8 +5,12 @@
     <title></title>
 </head>
 <body>
-    <h2>Список постов:</h2>
-    @Model
-    <h4>Вы можете <a href="/Post/AddNew">добавить новый пост</a></h4>
+    <h2>Posts list:</h2>
+    <h4>You can <a href="/Post/AddNew">add new post</a></h4>
+    <table>
+        <tbody>
+            @Model
+        </tbody>
+    </table>
 </body>
 </html>

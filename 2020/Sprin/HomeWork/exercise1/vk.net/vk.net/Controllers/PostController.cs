@@ -19,8 +19,8 @@ namespace vk.net.Controllers
         }
 
 
-        // Отображаем форму для доавления новых постов
-        public async Task GetForm(HttpContext context)
+        // Отображаем форму для добавления новых постов
+        public async Task GetNewPostForm(HttpContext context)
         {
             await context.Response.WriteAsync(File
                 .ReadAllText("Views/NewPostForm.html")
@@ -31,26 +31,48 @@ namespace vk.net.Controllers
         // Отображаем форму для редактирования постов
         public async Task GetEditForm(HttpContext context)
         {
-            var postId = context.GetRouteValue("postId");
+            var postId = int.Parse(context.GetRouteValue("postId") as string);
+            var post = storage.Get(postId);
             await context.Response.WriteAsync(File
                 .ReadAllText("Views/NewPostForm.html")
-                .Replace("@action", string.Format("/Post/Edit/{0}", postId)));
+                .Replace("@action", string.Format("/Post/Edit/{0}", postId))
+                .Replace("NAME", post.Name)
+                .Replace("TEXT", post.Text));
         }
 
 
         // Добавляем новый пост
         public async Task AddNew(HttpContext context)
         {
-            var newEntry = new BlogEntry
-            {
-                Name = context.Request.Form["name"],
-                Text = context.Request.Form["text"],
-                FileDirectories = await SavePostFilesAsync(context, context.Request.Form["name"])
-            };
+            //var newEntry = new BlogEntry
+            //{
+            //    Name = context.Request.Form["name"],
+            //    Text = context.Request.Form["text"],
+            //    FileDirectories = await SavePostFilesAsync(context, context.Request.Form["name"])
+            //};
 
-            storage.Add(newEntry);
-                    
-            await context.Response.WriteAsync("New Post was added!");
+            var newEntry = new BlogEntry(context);
+
+            var validationResult = Validation.Validation.Validate(newEntry);
+
+            if (validationResult.IsValid)
+            {
+                storage.Add(newEntry);
+
+                await context.Response.WriteAsync("New Post was added!");
+                return;
+            }
+
+            if (validationResult.ErrorMessage == "Fileld should not be empty")
+                await context.Response.WriteAsync(File
+                .ReadAllText("Views/NewPostForm.html")
+                .Replace("@action", "/Post/AddNew/")
+                .Replace("<!-- name_error_msg -->", validationResult.ErrorMessage));
+            else if (validationResult.ErrorMessage == "Name should start with Uppercase letter")
+                await context.Response.WriteAsync(File
+                .ReadAllText("Views/NewPostForm.html")
+                .Replace("@action", "/Post/AddNew/")
+                .Replace("<!-- name_error_msg -->", validationResult.ErrorMessage));
         }
 
         
@@ -62,16 +84,18 @@ namespace vk.net.Controllers
             var posts = storage.AllPosts();
 
             // Формирует ответ
-            foreach(var post in posts)
-            {
-                var postHtml = string.Format(
-                    @"<p><a href=""/Post/Detail/{0}"">{1}</a>
-                    <a href=""/Post/Delete/{0}"">Delete</a> <a href=""/Post/Edit/{0}"">Edit</a> </p></br> ",
-                    post.Id,
-                    post.Name
+            foreach (var post in posts)
+                responseContext.Append
+                    (
+                    string.Format(
+                        @"<tr>
+                        <td><a href=""/Post/Detail/{0}"">{1}</a></td>
+                        <td><a href=""/Post/Delete/{0}"">Delete</a></td>
+                        <td><a href=""/Post/Edit/{0}"">Edit</a></td>
+                        </tr>",
+                        post.Id,
+                        post.Name)
                     );
-                responseContext.Append(postHtml);
-            }
             
             var response = File
                 .ReadAllText("Views/PostsList.html")
@@ -81,7 +105,7 @@ namespace vk.net.Controllers
 
 
         // Отображаем детали поста
-        public async Task PostDetailAsync(HttpContext context)
+        public async Task PostDetailAsync(HttpContext context, string commentError = "")
         {
             var postId = int.Parse(context.GetRouteValue("postId") as string);
             var post = storage.Get(postId);
@@ -100,7 +124,8 @@ namespace vk.net.Controllers
             response = response
                 .Replace("@Files", fileList.ToString())
                 .Replace("@modelId", post.Id.ToString())
-                .Replace("@Comments", comments.ToString());
+                .Replace("@Comments", comments.ToString()
+                .Replace("<!-- text_error_msg -->", commentError));
             await context.Response.WriteAsync(response);
         }
 
@@ -143,9 +168,15 @@ namespace vk.net.Controllers
                 Content = content
             };
 
-            storage.Add(newComment);
+            var validateResult = Validation.Validation.Validate(newComment);
 
-            await context.Response.WriteAsync("New comment was added!");
+            if (!validateResult.IsValid)
+                await PostDetailAsync(context, validateResult.ErrorMessage);
+            else
+            {
+                storage.Add(newComment);
+                await context.Response.WriteAsync("New comment was added!");
+            }
         }
 
 

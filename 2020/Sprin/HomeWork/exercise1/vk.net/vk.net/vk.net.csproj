@@ -10,6 +10,7 @@
     <Folder Include="Files\" />
     <Folder Include="Models\" />
     <Folder Include="Services\" />
+    <Folder Include="Validation\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Views\NewPostForm %28копировать%29.html" />

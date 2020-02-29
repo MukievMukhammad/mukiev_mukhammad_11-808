@@ -16,7 +16,8 @@ namespace vk.net.Services
         {
         }
 
-        // Добавляет новый элемент на жесткий диск
+
+        // Добавляет новый пост на жесткий диск
         public void Add(BlogEntry blogEntry)
         {
             blogEntry.Id = Directory.GetFiles(filePath, "*.*", SearchOption.AllDirectories).Length + 1;
@@ -30,6 +31,7 @@ namespace vk.net.Services
                 new string[] { blogEntry.Name, blogEntry.Text, fileDirs.ToString() });
         }
 
+
         public void Delete(int id)
         {
             File.Delete(Path.Combine(filePath, id + ".txt"));
@@ -37,6 +39,7 @@ namespace vk.net.Services
             File.Delete(Path.Combine(filePath, id + ".jpg"));
             File.Delete(Path.Combine(filePath, id + ".jpeg"));
         }
+
 
         public void Save(BlogEntry blogEntry)
         {
@@ -48,40 +51,68 @@ namespace vk.net.Services
             foreach (var dir in blogEntry.FileDirectories)
                 fileDirs.Append(dir + ',');
 
-            File.WriteAllText(
+            File.WriteAllLines(
                 Path.Combine(filePath, blogEntry.Id + ".txt"),
-                blogEntry.Name + '\n' + blogEntry.Text + '\n' + fileDirs + '\n');
+                new string[] { blogEntry.Name, blogEntry.Text, fileDirs.ToString() });
         }
+
 
         public List<BlogEntry> AllPosts()
         {
             var result = new List<BlogEntry>();
             var fielIds = Directory
                 .GetFiles(filePath, "*.txt", SearchOption.AllDirectories)
-                .Select(dir => int.Parse(dir.Split('/')[1].Split('.')[0]));
+                .Select(dir => int.Parse(dir.Split('/')[1].Split('.')[0])); // directory format: Files/postId.txt
             foreach(var id in fielIds)
             {
-                var entry = Get(id);
-                result.Add(entry);
+                try
+                {
+                    var entry = Get(id);
+                    result.Add(entry);
+                }
+                catch { }
             }
             return result;
         }
 
+
         public BlogEntry Get(int id)
         {
-            var comments = new List<Comment>();
             var content = File.ReadAllLines(
                     Path.Combine(filePath, id + ".txt"));
+            var entry = new BlogEntry()
+            {
+                Id = id,
+                Name = content[0],
+                Text = content[1],
+                FileDirectories = GetFilesDirs(content),
+                Comments = GetPostComments(content, id)
+            };
+            return entry;
+        }
+
+
+        // Достаем местоположение всех прикрепленных к посту файлов
+        private List<string> GetFilesDirs(string[] dirs)
+        {
             var fileDirs = new List<string>();
             try
             {
-                fileDirs = content[2].Split(',').ToList();
+                fileDirs = dirs[2].Split(',').ToList();
             }
             catch { }
+            return fileDirs;
+        }
+
+
+        // Достаем все комментария относящиеся к определенному посту
+        private List<Comment> GetPostComments(string[] content, int postId)
+        {
+            var comments = new List<Comment>();
             try
             {
-                var commentsId = content[3].Split(',');
-                foreach (var commentId in commentsId)
+                var commentsIds = content[3].Split(',');
+                foreach (var commentId in commentsIds)
                 {
                     if (commentId == "") continue;
 
@@ -89,31 +120,22 @@ namespace vk.net.Services
                     {
                         Id = int.Parse(commentId),
                         Content = File.ReadAllLines(
-                            Path.Combine(filePath, commentId + ".txt"))[1],
-                        PostId = id
+                            Path.Combine(filePath, commentId + ".html"))[1],
+                        PostId = postId
                     };
                     comments.Add(comment);
                 }
             }
             catch { }
-
-            var entry = new BlogEntry
-            {
-                Id = id,
-                Name = content[0],
-                Text = content[1],
-                FileDirectories = fileDirs,
-                Comments = comments
-            };
-            return entry;
+            return comments;
         }
 
         public void Add(Comment comment)
         {
-            comment.Id = Directory.GetFiles(filePath, "*.txt", SearchOption.AllDirectories).Length + 1;
+            comment.Id = Directory.GetFiles(filePath, "*.*", SearchOption.AllDirectories).Length + 1;
 
             File.AppendAllLines(
-                Path.Combine(filePath, comment.Id + ".txt"),
+                Path.Combine(filePath, comment.Id + ".html"),
                 new string[] { comment.PostId.ToString(), comment.Content });
 
             File.AppendAllText(

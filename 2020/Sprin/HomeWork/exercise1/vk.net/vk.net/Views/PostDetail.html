@@ -12,6 +12,7 @@
 
     <div>
         <form action="/Post/Comment/Add" method="post" enctype="multipart/form-data">
+            <span for="text"><!-- text_error_msg --></span>
             <input type="text" name="content" />
             <input type="hidden" name="postId" value="@modelId" />
             <input type="submit" value="Add comment" />
