@@ -1,26 +1,29 @@
 ﻿<Properties StartupConfiguration="{95BED1AF-743E-4F94-9A5C-BFEB85DE9025}|Default">
   <MonoDevelop.Ide.ItemProperties.vk.net PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Services/IStorage.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Files/5.txt">
     <Files>
-      <File FileName="Startup.cs" Line="40" Column="1" />
-      <File FileName="Controllers/PostController.cs" Line="179" Column="14" />
-      <File FileName="Views/PostsList.html" Line="11" Column="16" />
-      <File FileName="Services/BlogEntiesStorage.cs" Line="121" Column="14" />
-      <File FileName="Views/NewPostForm.html" Line="16" Column="60" />
-      <File FileName="Models/BlogEntry.cs" Line="32" Column="96" />
-      <File FileName="Validation/TextStartUppercaseAttribute.cs" Line="19" Column="68" />
-      <File FileName="Models/Comments.cs" Line="1" Column="1" />
-      <File FileName="Views/PostDetail.html" Line="15" Column="7" />
-      <File FileName="Services/IStorage.cs" Line="1" Column="1" />
+      <File FileName="Startup.cs" Line="35" Column="96" />
+      <File FileName="Controllers/PostController.cs" Line="56" Column="61" />
+      <File FileName="Views/PostsList.html" />
+      <File FileName="Services/BlogEntiesStorage.cs" />
+      <File FileName="Views/NewPostForm.html" />
+      <File FileName="Models/BlogEntry.cs" />
+      <File FileName="Models/Comments.cs" />
+      <File FileName="Views/PostDetail.html" />
+      <File FileName="Services/IStorage.cs" />
+      <File FileName="Validation/Validation.cs" Line="17" Column="79" />
+      <File FileName="Validation/ValidationAttribute.cs" Line="7" Column="30" />
+      <File FileName="Validation/NotEmptyAttribute.cs" Line="13" Column="1" />
+      <File FileName="Files/5.txt" Line="1" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="vk.net" expanded="True">
             <Node name="vk.net" expanded="True">
-              <Node name="Services" expanded="True">
-                <Node name="IStorage.cs" selected="True" />
-              </Node>
+              <Node name="Controllers" expanded="True" />
+              <Node name="Files" expanded="True" selected="True" />
+              <Node name="Services" expanded="True" />
               <Node name="Validation" expanded="True" />
               <Node name="Views" expanded="True" />
             </Node>

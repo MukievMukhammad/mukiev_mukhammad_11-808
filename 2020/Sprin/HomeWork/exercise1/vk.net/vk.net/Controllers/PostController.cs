@@ -104,8 +104,14 @@ namespace vk.net.Controllers
         }
 
 
+        public async Task DetailAsync(HttpContext context)
+        {
+            await DetailAsync(context, "");
+        }
+
+
         // Отображаем детали поста
-        public async Task PostDetailAsync(HttpContext context, string commentError = "")
+        public async Task DetailAsync(HttpContext context, string commentError = "")
         {
             var postId = int.Parse(context.GetRouteValue("postId") as string);
             var post = storage.Get(postId);
@@ -171,7 +177,7 @@ namespace vk.net.Controllers
             var validateResult = Validation.Validation.Validate(newComment);
 
             if (!validateResult.IsValid)
-                await PostDetailAsync(context, validateResult.ErrorMessage);
+                await DetailAsync(context, validateResult.ErrorMessage);
             else
             {
                 storage.Add(newComment);

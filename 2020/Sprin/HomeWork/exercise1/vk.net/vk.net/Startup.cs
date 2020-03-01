@@ -31,7 +31,7 @@ namespace vk.net
             var routeBuilder = new RouteBuilder(app);
 
             routeBuilder.MapGet("Post/Delete/{postId}", new PostController(storage).DeletePost);
-            routeBuilder.MapGet("Post/Detail/{postId}", new PostController(storage).PostDetailAsync);
+            routeBuilder.MapGet("Post/Detail/{postId}", new PostController(storage).DetailAsync);
             routeBuilder.MapGet("Post/Edit/{postId}", new PostController(storage).GetEditForm);
             routeBuilder.MapPost("Post/Edit/{postId}", new PostController(storage).EditPost);
             app.UseRouter(routeBuilder.Build());
