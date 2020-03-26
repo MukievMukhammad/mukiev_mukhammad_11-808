@@ -1,12 +1,13 @@
 ﻿<Properties StartupConfiguration="{93484F33-E0CF-41E7-B4DE-05659447BC5E}|Default">
   <MonoDevelop.Ide.ItemProperties.SocialMedia PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SocialMedia/HashCode.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SocialMedia/Filter/AuthFilter.cs">
     <Files>
-      <File FileName="SocialMedia/Controllers/AccountController.cs" Line="81" Column="30" />
+      <File FileName="SocialMedia/Controllers/AccountController.cs" Line="78" Column="56" />
       <File FileName="SocialMedia/Models/User.cs" Line="1" Column="1" />
-      <File FileName="SocialMedia/Controllers/PostsController.cs" Line="11" Column="1" />
+      <File FileName="SocialMedia/Controllers/PostsController.cs" Line="57" Column="14" />
       <File FileName="SocialMedia/Data/UsersContext.cs" Line="1" Column="1" />
-      <File FileName="SocialMedia/HashCode.cs" Line="6" Column="9" />
+      <File FileName="SocialMedia/HashCode.cs" Line="4" Column="35" />
+      <File FileName="SocialMedia/Filter/AuthFilter.cs" Line="22" Column="2" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -15,8 +16,10 @@
             <Node name="SocialMedia" expanded="True">
               <Node name="Controllers" expanded="True" />
               <Node name="Data" expanded="True" />
+              <Node name="Filter" expanded="True">
+                <Node name="AuthFilter.cs" selected="True" />
+              </Node>
               <Node name="Models" expanded="True" />
-              <Node name="HashCode.cs" selected="True" />
             </Node>
           </Node>
         </State>
