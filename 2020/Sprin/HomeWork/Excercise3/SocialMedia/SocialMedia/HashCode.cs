@@ -1,7 +1,7 @@
 ﻿using System;
 namespace SocialMedia
 {
-    public static class HashCode
+    public static class MyHashCode
     {
         public static double GetHash(string inputString)
         {

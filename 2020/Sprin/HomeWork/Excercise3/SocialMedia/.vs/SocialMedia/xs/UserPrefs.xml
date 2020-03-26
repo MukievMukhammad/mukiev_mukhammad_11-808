@@ -1,25 +1,25 @@
 ﻿<Properties StartupConfiguration="{93484F33-E0CF-41E7-B4DE-05659447BC5E}|Default">
   <MonoDevelop.Ide.ItemProperties.SocialMedia PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="SocialMedia/Filter/IsAdminClaims.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="SocialMedia/Controllers/PostsController.cs">
     <Files>
-      <File FileName="SocialMedia/Controllers/AccountController.cs" Line="78" Column="56" />
-      <File FileName="SocialMedia/Models/User.cs" Line="1" Column="1" />
-      <File FileName="SocialMedia/Controllers/PostsController.cs" Line="144" Column="51" />
-      <File FileName="SocialMedia/Data/UsersContext.cs" Line="1" Column="1" />
+      <File FileName="SocialMedia/Controllers/AccountController.cs" Line="82" Column="20" />
+      <File FileName="SocialMedia/Models/User.cs" Line="9" Column="40" />
+      <File FileName="SocialMedia/Controllers/PostsController.cs" Line="39" Column="10" />
+      <File FileName="SocialMedia/Data/UsersContext.cs" Line="7" Column="30" />
       <File FileName="SocialMedia/HashCode.cs" Line="4" Column="35" />
-      <File FileName="SocialMedia/Filter/AuthFilter.cs" Line="19" Column="1" />
-      <File FileName="SocialMedia/Filter/IsAdminClaims.cs" Line="1" Column="1" />
+      <File FileName="SocialMedia/Filter/AuthFilter.cs" Line="9" Column="28" />
+      <File FileName="SocialMedia/Filter/IsAdminClaims.cs" Line="19" Column="50" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="SocialMedia" expanded="True">
             <Node name="SocialMedia" expanded="True">
-              <Node name="Controllers" expanded="True" />
-              <Node name="Data" expanded="True" />
-              <Node name="Filter" expanded="True">
-                <Node name="IsAdminClaims.cs" selected="True" />
+              <Node name="Controllers" expanded="True">
+                <Node name="PostsController.cs" selected="True" />
               </Node>
+              <Node name="Data" expanded="True" />
+              <Node name="Filter" expanded="True" />
               <Node name="Models" expanded="True" />
             </Node>
           </Node>
