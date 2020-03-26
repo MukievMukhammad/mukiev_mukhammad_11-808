@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SocialMedia.Models;
 
 namespace SocialMedia.Data
 {
@@ -11,6 +12,9 @@ namespace SocialMedia.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            Database.EnsureCreated();
         }
+
+        public DbSet<Post> Posts { get; set; }
     }
 }
