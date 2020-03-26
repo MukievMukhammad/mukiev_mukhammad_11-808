@@ -33,7 +33,7 @@ namespace SocialMedia.Controllers
 
         [HttpGet]
         [AuthFilter]
-        public async Task<IActionResult> CreateAsync()
+        public IActionResult Create()
         {
             return View();
         }
