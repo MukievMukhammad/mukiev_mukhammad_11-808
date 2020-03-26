@@ -6,10 +6,10 @@ using SocialMedia.Data;
 
 namespace SocialMedia.Filters
 {
-    public class AuthFilter : Attribute, IAuthorizationFilter
+    public class AuthFilterAttribute : Attribute, IAuthorizationFilter
     {
         private UsersContext _usersContext = null;
-        public AuthFilter()
+        public AuthFilterAttribute()
         {
         }
 

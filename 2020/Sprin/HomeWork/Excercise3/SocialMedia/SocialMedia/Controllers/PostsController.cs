@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Data;
+using SocialMedia.Filters;
 using SocialMedia.Models;
 using SocialMedia.Views.Account;
 
@@ -31,19 +32,17 @@ namespace SocialMedia.Controllers
         }
 
         [HttpGet]
+        [AuthFilter]
         public async Task<IActionResult> CreateAsync()
         {
-            await AuthorizeAsync();
-
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthFilter]
         public async Task<IActionResult> Create([Bind("Id,Name,Text,Date")] Post post)
         {
-            await AuthorizeAsync();
-
             if (ModelState.IsValid)
             {
                 _context.Add(post);
@@ -54,10 +53,9 @@ namespace SocialMedia.Controllers
         }
 
         [HttpGet]
+        [AuthFilter]
         public async Task<IActionResult> Edit(int? id)
         {
-            await AuthorizeAsync();
-
             if (id == null)
             {
                 return NotFound();
@@ -73,10 +71,9 @@ namespace SocialMedia.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [AuthFilter]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Text,Date")] Post post)
         {
-            await AuthorizeAsync();
-
             if (id != post.Id)
             {
                 return NotFound();
@@ -105,10 +102,9 @@ namespace SocialMedia.Controllers
             return View(post);
         }
 
+        [AuthFilter]
         public async Task<IActionResult> Delete(int? id)
         {
-            await AuthorizeAsync();
-
             if (id == null)
             {
                 return NotFound();
@@ -126,10 +122,9 @@ namespace SocialMedia.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [AuthFilter]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            await AuthorizeAsync();
-
             var post = await _context.Posts.FindAsync(id);
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
