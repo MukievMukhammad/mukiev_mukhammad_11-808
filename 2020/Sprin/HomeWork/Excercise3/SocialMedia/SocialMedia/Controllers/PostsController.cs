@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Data;
 using SocialMedia.Models;
+using SocialMedia.Views.Account;
 
 // For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -15,10 +16,12 @@ namespace SocialMedia.Controllers
     public class PostsController : Controller
     {
         private ApplicationDbContext _context;
+        private UsersContext _usersContext;
 
-        public PostsController(ApplicationDbContext context)
+        public PostsController(ApplicationDbContext context, UsersContext usersContext)
         {
             _context = context;
+            _usersContext = usersContext;
         }
 
         // GET: /<controller>/
@@ -28,17 +31,19 @@ namespace SocialMedia.Controllers
         }
 
         [HttpGet]
-        [Authorize]
-        public IActionResult Create()
+        public async Task<IActionResult> CreateAsync()
         {
+            await AuthorizeAsync();
+
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> Create([Bind("Id,Name,Text,Date")] Post post)
         {
+            await AuthorizeAsync();
+
             if (ModelState.IsValid)
             {
                 _context.Add(post);
@@ -49,9 +54,10 @@ namespace SocialMedia.Controllers
         }
 
         [HttpGet]
-        [Authorize]
         public async Task<IActionResult> Edit(int? id)
         {
+            await AuthorizeAsync();
+
             if (id == null)
             {
                 return NotFound();
@@ -67,9 +73,10 @@ namespace SocialMedia.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Text,Date")] Post post)
         {
+            await AuthorizeAsync();
+
             if (id != post.Id)
             {
                 return NotFound();
@@ -98,9 +105,10 @@ namespace SocialMedia.Controllers
             return View(post);
         }
 
-        [Authorize]
         public async Task<IActionResult> Delete(int? id)
         {
+            await AuthorizeAsync();
+
             if (id == null)
             {
                 return NotFound();
@@ -118,9 +126,10 @@ namespace SocialMedia.Controllers
 
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
+            await AuthorizeAsync();
+
             var post = await _context.Posts.FindAsync(id);
             _context.Posts.Remove(post);
             await _context.SaveChangesAsync();
@@ -130,6 +139,27 @@ namespace SocialMedia.Controllers
         private bool PostExists(int id)
         {
             return _context.Posts.Any(e => e.Id == id);
+        }
+
+        private async Task<IActionResult> AuthorizeAsync()
+        {
+            var userId = Request.Cookies["id"];
+            var token = Request.Cookies["token"];
+            if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(token))
+                return RedirectToAction(nameof(Login));
+
+            var user = await _usersContext.Users.FirstOrDefaultAsync(u => u.Id == int.Parse(userId));
+            if (user == null)
+                BadRequest();
+            else if (!IsAuthenticated(double.Parse(token), user))
+                return RedirectToAction(nameof(Login));
+
+            return Ok();
+        }
+
+        private bool IsAuthenticated(double token, User user)
+        {
+            return token == MyHashCode.GetHash(user.Email + user.Password);
         }
     }
 }
