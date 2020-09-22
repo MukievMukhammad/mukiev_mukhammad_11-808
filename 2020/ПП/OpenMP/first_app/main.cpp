@@ -104,7 +104,7 @@ void fifth() {
     int d[6][8];
     for (int i = 0; i < 6; i++)
         for (int j = 0; j < 8; j++)
-            d[i][j] = rand() * 100;
+            d[i][j] = rand() % 100;
 #pragma omp parallel sections
     {
 #pragma omp section
@@ -265,8 +265,76 @@ void ninth() {
     printf("x = %d; y = %d;", x, y);
 }
 
+void tenth() {
+    int d[6][8];
+    for (int i = 0; i < 6; i++)
+        for (int j = 0; j < 8; j++)
+            d[i][j] = rand();
+    int max = d[0][0], min = d[0][0];
+#pragma omp parallel for num_threads(4)
+    for (int i = 0; i < 6; i++)
+        for (int j = 0; j < 8; j++) {
+#pragma omp critical
+            if (d[i][j] > max) max = d[i][j];
+#pragma omp critical
+            if (d[i][j] < min) min = d[i][j];
+        }
+    printf("max = %d;\nmin = %d;\n", max, min);
+}
+
+void eleventh() {
+    int a[30], count = 0;
+    for (int i = 0; i < 30; i++)
+        a[i] = rand();
+#pragma omp parallel num_threads(4)
+    for (int i = 0; i < 30; i++)
+        if (a[i] % 9 == 0)
+#pragma omp atomic
+            count++;
+    printf("result: %d", count);
+}
+
+void twelfth() {
+    int a[1000];
+    for (int i = 0; i < 1000; i++)
+        a[i] = rand();
+    int max = a[0];
+#pragma omp parallel for num_threads(4)
+    for (int i = 0; i < 1000; i++)
+        if (a[i] % 7)
+#pragma omp critical
+            if (a[i] > max) max = a[i];
+    printf("result = %d", max);
+}
+
+void thirteenth() {
+#pragma omp parallel num_threads(8)
+    {
+        int n = omp_get_num_threads();
+        for (int i = n - 1; i >= 0; i--) {
+#pragma omp barrier
+            if (i == omp_get_thread_num())
+#pragma omp critical
+                printf("Thread(%d/%d)\n", i, n);
+
+        }
+    }
+}
+
+void thirteenth2() {
+#pragma omp parallel for ordered
+    for (int i = 0; i < omp_get_num_threads(); i++) {
+        int n = omp_get_num_threads() - i;
+#pragma omp ordered
+        printf("%d) Thread(%d/%d)\n",
+               n,
+               omp_get_thread_num(),
+               omp_get_num_threads());
+    }
+}
+
 int main() {
-    ninth();
+    thirteenth();
     return 0;
 }
 
