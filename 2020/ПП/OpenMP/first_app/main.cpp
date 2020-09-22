@@ -194,43 +194,24 @@ void eighth() {
     int a[16000];
     for (int i = 0; i < 16000; i++)
         a[i] = i;
-    int c = 2;
+    int min_time, min_c;
 
-#pragma omp parallel num_threads(8)
-    {
+    for (int j = 1; j < 16000; j++) {
         unsigned int start_time1 = clock();
         int b1[15998];
-#pragma omp for schedule(static, c)
+#pragma omp parallel for schedule(guided, j) num_threads(8)
         for (int i = 1; i < 15999; i++)
             b1[i] = (a[i - 1] + a[i] + a[i + 1]) / 3;
         unsigned int end_time1 = clock();
-        printf("time1 = %d\n", end_time1 - start_time1);
-
-        unsigned int start_time2 = clock();
-        int b2[15998];
-#pragma omp for schedule(dynamic, c)
-        for (int i = 1; i < 15999; i++)
-            b2[i] = (a[i - 1] + a[i] + a[i + 1]) / 3;
-        unsigned int end_time2 = clock();
-        printf("time2 = %d\n", end_time2 - start_time2);
-
-        unsigned int start_time3 = clock();
-        int b3[15998];
-#pragma omp for schedule(guided, c)
-        for (int i = 1; i < 15999; i++)
-            b3[i] = (a[i - 1] + a[i] + a[i + 1]) / 3;
-        unsigned int end_time3 = clock();
-        printf("time3 = %d\n", end_time3 - start_time3);
-
-        unsigned int start_time4 = clock();
-        int b4[15998];
-#pragma omp for schedule(runtime)
-        for (int i = 1; i < 15999; i++)
-            b4[i] = (a[i - 1] + a[i] + a[i + 1]) / 3;
-        unsigned int end_time4 = clock();
-        printf("time4 = %d\n", end_time4 - start_time4);
+        printf("time = %d\nc=%d\n", end_time1 - start_time1, j);
+        if (j == 1) min_time = end_time1 - start_time1;
+        if ((end_time1 - start_time1) < min_time) {
+            min_time = end_time1 - start_time1;
+            min_c = j;
+        }
     }
 
+    printf("Optimal \ntime = %d;\nc=%d;\n", min_time, min_c);
 }
 
 void ninth() {
@@ -269,17 +250,28 @@ void tenth() {
     int d[6][8];
     for (int i = 0; i < 6; i++)
         for (int j = 0; j < 8; j++)
-            d[i][j] = rand();
+            d[i][j] = rand() % 100;
     int max = d[0][0], min = d[0][0];
-#pragma omp parallel for num_threads(4)
-    for (int i = 0; i < 6; i++)
-        for (int j = 0; j < 8; j++) {
+    int g_max = d[0][0], g_min = d[0][0];
+#pragma omp parallel num_threads(6) firstprivate(max, min)
+    {
+#pragma omp for
+        for (int i = 0; i < 6; i++)
+            for (int j = 0; j < 8; j++) {
+                if (d[i][j] > max)
+                    max = d[i][j];
+                if (d[i][j] < min)
+                    min = d[i][j];
+            }
 #pragma omp critical
-            if (d[i][j] > max) max = d[i][j];
-#pragma omp critical
-            if (d[i][j] < min) min = d[i][j];
+        {
+            if (max > g_max)
+                g_max = max;
+            if (min < g_min)
+                g_min = min;
         }
-    printf("max = %d;\nmin = %d;\n", max, min);
+    }
+    printf("min = %d;\nmax = %d;\n", g_min, g_max);
 }
 
 void eleventh() {
@@ -334,7 +326,7 @@ void thirteenth2() {
 }
 
 int main() {
-    thirteenth();
+    tenth();
     return 0;
 }
 
